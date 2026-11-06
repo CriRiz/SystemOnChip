@@ -1,0 +1,10 @@
+Crea un terminale scrivendo:
+
+>PlatformIO: new Terminal 
+
+solo così possono funzionare i comandi:
+
+pio run                    // compila il codice
+pio run --target upload    // serve per emulare il codice su Renode
+
+Guardati bene gli script dentro scripts\single-node
