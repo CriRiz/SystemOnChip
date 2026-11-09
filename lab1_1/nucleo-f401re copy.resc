@@ -1,6 +1,0 @@
-using sysbus
-mach create "Nucleo F401RE"
-include @STM32DMAv2.cs
-machine LoadPlatformDescription @nucleo-f401re.repl
-cpu PerformanceInMips 125
-

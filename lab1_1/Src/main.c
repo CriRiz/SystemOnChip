@@ -19,17 +19,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "tim.h"
-#include "stm32f4xx_hal_tim.h"
 #include "usart.h"
 #include "gpio.h"
 
-extern TIM_HandleTypeDef htim10;
-
-// CONSTANTS ----------------------------------------
-static const uint16_t ARR[3] = {3999, 19999, 1999};
-//static const uint16_t ARR[3] = {3999, 5, 200};
-static int8_t I = 0;
-// --------------------------------------------------
+/* CONSTANTS -------------------------------------- */
+static const uint32_t ARR[] = {1999, 3999, 19999};
+static int16_t index = 0;
+/* ------------------------------------------------ */
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -85,6 +81,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -166,9 +163,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     if(GPIO_Pin == B1_Pin)
     {
         //HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin); exercise 1
-        int8_t index = 0;
-        I++;
-        index = I%3;
+        index = (index+1) % 3;
         HAL_TIM_Base_Stop_IT (&htim10 ) ;
         __HAL_TIM_SET_AUTORELOAD (&htim10 , ARR[index] ) ;
         __HAL_TIM_SET_COUNTER (&htim10 ,0) ;

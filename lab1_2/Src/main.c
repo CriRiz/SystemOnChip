@@ -22,16 +22,6 @@
 #include "usart.h"
 #include "gpio.h"
 
-/* PARAMETERS ADDED BY CRI ---------------------------------------------------*/
-#define BUFFER_SIZE 32
-
-const uint8_t aSRC_ConstBuffer[BUFFER_SIZE] = "Hello from DMA & UART2!\r\n";
-
-// Destination buffer in RAM
-uint8_t aDST_Buffer[BUFFER_SIZE];
-
-/*----------------------------------------------------------------------------*/
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -44,7 +34,7 @@ uint8_t aDST_Buffer[BUFFER_SIZE];
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define BUFFER_SIZE 32
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -55,16 +45,21 @@ uint8_t aDST_Buffer[BUFFER_SIZE];
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+/* Buffer in Flash */
+const uint8_t MESSAGE_Const[BUFFER_SIZE] = "Hello from DMA & UART2!\r\n";
 
+/* Destination buffer in RAM */
+uint8_t MESSAGE[BUFFER_SIZE];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+static void TransferComplete(DMA_HandleTypeDef *hdma);
+static void TransferError(DMA_HandleTypeDef *hdma);
 /* USER CODE END PFP */
 
-/* Private user code ---------------------------------------------------------*/
+/* Private user code --------------------------------------------------------- */
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -86,6 +81,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -99,16 +95,20 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_USART2_UART_Init();
+  
   /* USER CODE BEGIN 2 */
-  HAL_Delay(500);
-  if (HAL_UART_Transmit(&huart2, (uint8_t *)aSRC_ConstBuffer,
-                        sizeof(aSRC_ConstBuffer) - 1, HAL_MAX_DELAY) != HAL_OK)
+  /* ERROR IN DMA TRANSFER */
+  HAL_DMA_RegisterCallback(&hdma_memtomem_dma2_stream0, HAL_DMA_XFER_CPLT_CB_ID, TransferComplete);
+  HAL_DMA_RegisterCallback(&hdma_memtomem_dma2_stream0, HAL_DMA_XFER_ERROR_CB_ID, TransferError);
+
+  /* TRANSFER DMA TO FLASH!!! */
+  if (HAL_DMA_Start_IT(&hdma_memtomem_dma2_stream0, (uint32_t)MESSAGE_Const, (uint32_t)MESSAGE, sizeof(MESSAGE_Const) - 1) != HAL_OK)
   {
     Error_Handler();
   }
-  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
   /* USER CODE END 2 */
-
+  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 1, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -167,20 +167,18 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+static void TransferComplete(DMA_HandleTypeDef *hdma)
 {
-  if (huart->Instance == USART2)
-  {
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-  }
+  /* Transfer in UART reading from SRAM gone correctly */
+  /* Callback function */
+  HAL_Delay(100);
+  HAL_UART_Transmit(&huart2, MESSAGE, sizeof(MESSAGE_Const) - 1, HAL_MAX_DELAY);
 }
 
-void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+/* turn on LED in case of DMA error */
+static void TransferError(DMA_HandleTypeDef *hdma)
 {
-  if (huart->Instance == USART2)
-  {
-    HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-  }
+  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 }
 /* USER CODE END 4 */
 
@@ -198,6 +196,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
+
 #ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number

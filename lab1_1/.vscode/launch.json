@@ -9,10 +9,29 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "C/C++ Runner: Debug Session",
+            "type": "cppdbg",
+            "request": "launch",
+            "args": [],
+            "stopAtEntry": false,
+            "externalConsole": true,
+            "cwd": "d:/Politotmp/SystemOnChip/lab1_1_2/Src",
+            "program": "d:/Politotmp/SystemOnChip/lab1_1_2/Src/build/Debug/outDebug",
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "D:/Politotmp/SystemOnChip/lab1/.pio/build/renode/firmware.elf",
+            "executable": "D:/Politotmp/SystemOnChip/lab1_1_2/.pio/build/renode/firmware.elf",
             "projectEnvName": "renode",
             "toolchainBinDir": "C:/Users/criri/.platformio/packages/toolchain-gccarmnoneeabi@1.70201.0/bin",
             "internalConsoleOptions": "openOnSessionStart",
@@ -26,7 +45,7 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "D:/Politotmp/SystemOnChip/lab1/.pio/build/renode/firmware.elf",
+            "executable": "D:/Politotmp/SystemOnChip/lab1_1_2/.pio/build/renode/firmware.elf",
             "projectEnvName": "renode",
             "toolchainBinDir": "C:/Users/criri/.platformio/packages/toolchain-gccarmnoneeabi@1.70201.0/bin",
             "internalConsoleOptions": "openOnSessionStart",
@@ -36,7 +55,7 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (without uploading)",
-            "executable": "D:/Politotmp/SystemOnChip/lab1/.pio/build/renode/firmware.elf",
+            "executable": "D:/Politotmp/SystemOnChip/lab1_1_2/.pio/build/renode/firmware.elf",
             "projectEnvName": "renode",
             "toolchainBinDir": "C:/Users/criri/.platformio/packages/toolchain-gccarmnoneeabi@1.70201.0/bin",
             "internalConsoleOptions": "openOnSessionStart",

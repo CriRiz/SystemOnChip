@@ -8,8 +8,8 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "D:/Politotmp/SystemOnChip/lab1/Inc",
-                "D:/Politotmp/SystemOnChip/lab1/Src",
+                "D:/Politotmp/SystemOnChip/lab1_1_2/Inc",
+                "D:/Politotmp/SystemOnChip/lab1_1_2/Src",
                 "C:/Users/criri/.platformio/packages/framework-stm32cubef4/Drivers/CMSIS/Include",
                 "C:/Users/criri/.platformio/packages/framework-stm32cubef4/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
                 "C:/Users/criri/.platformio/packages/framework-stm32cubef4/Drivers/STM32F4xx_HAL_Driver/Inc",
@@ -100,8 +100,8 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "D:/Politotmp/SystemOnChip/lab1/Inc",
-                    "D:/Politotmp/SystemOnChip/lab1/Src",
+                    "D:/Politotmp/SystemOnChip/lab1_1_2/Inc",
+                    "D:/Politotmp/SystemOnChip/lab1_1_2/Src",
                     "C:/Users/criri/.platformio/packages/framework-stm32cubef4/Drivers/CMSIS/Include",
                     "C:/Users/criri/.platformio/packages/framework-stm32cubef4/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
                     "C:/Users/criri/.platformio/packages/framework-stm32cubef4/Drivers/STM32F4xx_HAL_Driver/Inc",
