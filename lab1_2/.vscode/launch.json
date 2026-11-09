@@ -19,7 +19,7 @@
             "svdPath": "C:/Users/criri/.platformio/platforms/ststm32/misc/svd/STM32F401xE.svd",
             "preLaunchTask": {
                 "type": "PlatformIO",
-                "task": "Pre-Debug"
+                "task": "Pre-Debug (renode)"
             }
         },
         {
